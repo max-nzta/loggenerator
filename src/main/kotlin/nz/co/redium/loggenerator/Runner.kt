@@ -1,12 +1,13 @@
 package nz.co.redium.loggenerator
 
-import kotlinx.coroutines.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 fun main() {
-  for (i in 1..10) {
-    GlobalScope.launch {
-      Generator().generate()
+    while (true) {
+        GlobalScope.launch {
+            Generator().generate()
+        }
+        Thread.sleep(600000)
     }
-  }
-  Thread.sleep(20000)
 }

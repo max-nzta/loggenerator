@@ -1,5 +1,7 @@
 package nz.co.redium.loggenerator
 
+import java.io.File
+import java.nio.charset.Charset
 import java.time.*
 import kotlin.random.*
 
@@ -40,12 +42,21 @@ class Generator {
       "Heater",
       "Tree"
     )
+
+    val LOG_FILE = File("/tmp/orders.log")
   }
 
   fun generate() {
-    for (i in 1..20) {
-      println("${LocalDateTime.now()} Customer ${getCustomer()} made an order. {item: \"${getOrder()}\"}, {price: \"${getPrice()}\"}")
-      Thread.sleep((500..999).random().toLong())
+    if (!LOG_FILE.exists()) {
+      LOG_FILE.createNewFile()
+    }
+    for (i in 1..60) {
+      val logEntry =
+        "${LocalDateTime.now()} Customer ${getCustomer()} made an order. {item: \"${getOrder()}\"}, {price: \"${getPrice()}\"}"
+      println(logEntry)
+      LOG_FILE.appendText(logEntry, Charset.forName(Charsets.UTF_8.name()))
+      LOG_FILE.appendText("\n", Charset.forName(Charsets.UTF_8.name()))
+      Thread.sleep((8000..9999).random().toLong())
     }
   }
 
